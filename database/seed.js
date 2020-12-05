@@ -2,7 +2,7 @@ const fs = require('fs');
 const { performance } = require('perf_hooks');
 
 const lines = 10000000;
-const filename = 'scdData.csv';
+const filename = 'sdcData.csv';
 const stream = fs.createWriteStream(filename);
 
 
