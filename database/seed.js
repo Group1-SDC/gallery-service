@@ -1,9 +1,8 @@
 const fs = require('fs');
-const argv = require('yargs').argv;
 const { performance } = require('perf_hooks');
 
-const lines = argv.lines || 10;
-const filename = argv.output || 'test.csv';
+const lines = 10000000;
+const filename = 'scdData.csv';
 const stream = fs.createWriteStream(filename);
 
 
