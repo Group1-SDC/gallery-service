@@ -3,16 +3,16 @@ import { SmallImg, SmallImagesContainer, SmallImageContainer } from '../styledCo
 
 const allImages = (props) => {
   return (
-    <SmallImagesContainer key={props.itemImageObjs}>
-      {props.itemImageObjs.map((oneImageObj) => {
+    <SmallImagesContainer key={props.images}>
+      {props.images.map((image) => {
         return (
           <SmallImageContainer
             onClick={() => {
-              props.setMain(oneImageObj);
+              props.setMain(image);
             }}
-            key={oneImageObj.id}
+            key={Math.random()}
           >
-            <SmallImg rel="preload" src={oneImageObj.url} alt="partOfAllImages" key={oneImageObj.id} />
+            <SmallImg rel="preload" src={image.url} alt="partOfAllImages" key={image.id} />
           </SmallImageContainer>
         );
       })}

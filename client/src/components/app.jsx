@@ -3,7 +3,12 @@ import Axios from 'axios';
 import AllImages from './allImages';
 import MainImage from './mainImage';
 import {
-  Container, Navigation, CodeOff, Back, Home, Sports,
+  Container,
+  Navigation,
+  CodeOff,
+  Back,
+  Home,
+  Sports,
 } from '../styledComponents/galleryStyles';
 
 class App extends React.Component {
@@ -11,7 +16,7 @@ class App extends React.Component {
     super(props);
     this.state = {
       main: '',
-      itemImageObjs: [],
+      images: [],
       currImg: '',
     };
     this.setMain = this.setMain.bind(this);
@@ -21,72 +26,95 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    let id = 1;
     if (window.location.pathname !== '/') {
       const arr = window.location.pathname.split('/');
-      [id] = [arr[1]];
+      this.getImages(arr[1]);
     }
-    this.getImages(id);
   }
 
   getImages(itemId) {
-    Axios.get(`/api/images/?id=${itemId}`)
-      .then((imagesObj) => {
+    Axios.get(`/api/images/?id=${itemId}`) // https query
+      .then((res) => {
         this.setState({
-          itemImageObjs: imagesObj.data[0].imageUrls,
+          images: res.data, // now an array // imagesObj.data[0].imageUrls
           currImg: 0,
         });
-        return imagesObj.data[0].imageUrls[0];
+        return res.data[0]; // gets sent to next // imagesObj.data[0].imageUrls[0]
       })
-      .then((firstImg) => {
-        this.getImages(this.setMain(firstImg));
+      .then((firstImage) => {
+        console.log('get images fxn fired');
+        console.log(firstImage);
+        this.getImages(this.setMain(firstImage, 0));
       })
       .catch((err) => {
-        return err;
+        console.error(err);
       });
   }
 
-  setMain(image) {
+  // [
+  //   {img_url: 'urlstring/asldfkugh'},
+  //   {},
+  //   {},
+  //   {},
+  //   {}
+  // ]
+
+  //   [
+  //     {
+  //         "imageUrls": [
+  //             "http://placeimg.com/640/480/fashion",
+  //             "http://placeimg.com/640/480/fashion",
+  //             "http://placeimg.com/640/480/fashion",
+  //             "http://placeimg.com/640/480/fashion",
+  //             "http://placeimg.com/640/480/fashion"
+  //         ],
+  //         "_id": "5faed97b610fbd1d50ddd72d",
+  //         "id": 2,
+  //         "__v": 0
+  //     }
+  // ]
+
+  setMain(image, n) {
     this.setState({
-      main: image.url,
-      currImg: image.id,
+      main: image.img_url,
+      currImg: n, // image.id, start at 0
     });
   }
 
   nextImage() {
-    const { currImg, itemImageObjs } = this.state;
+    const { currImg, images } = this.state;
 
-    if (currImg === 4) {
+    if (currImg === images.length - 1) {
       this.setState({
         currImg: 0,
-        main: itemImageObjs[0].url,
+        main: images[0].img_url,
       });
     } else {
       this.setState({
         currImg: currImg + 1,
-        main: itemImageObjs[currImg + 1].url,
+        main: images[currImg + 1].img_url,
       });
     }
   }
 
   previousImage() {
-    const { currImg, itemImageObjs } = this.state;
+    const { currImg, images } = this.state;
 
     if (currImg === 0) {
       this.setState({
-        currImg: 4,
-        main: itemImageObjs[4].url,
+        currImg: images.length - 1,
+        main: images[images.length - 1].img_url,
       });
     } else {
       this.setState({
         currImg: currImg - 1,
-        main: itemImageObjs[currImg - 1].url,
+        main: images[currImg - 1].img_url,
       });
     }
   }
 
   render() {
-    const { itemImageObjs, main } = this.state;
+    const { images, main } = this.state; // redundant eslint
     return (
       <Container>
         <Navigation>
@@ -99,7 +127,7 @@ class App extends React.Component {
         </Navigation>
         <CodeOff> -30% CODE GETSHOES</CodeOff>
         <MainImage nextImage={this.nextImage} previousImage={this.previousImage} main={main} />
-        <AllImages itemImageObjs={itemImageObjs} setMain={this.setMain} />
+        <AllImages images={images} setMain={this.setMain} />
       </Container>
     );
   }
