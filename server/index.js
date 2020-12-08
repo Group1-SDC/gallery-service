@@ -3,7 +3,7 @@ const express = require('express');
 const { ItemImages } = require('../database/index.js');
 
 const app = express();
-const port = 3002;
+const port = 3000;
 
 app.use(express.static('public'));
 app.use('/:id', express.static('public'));
