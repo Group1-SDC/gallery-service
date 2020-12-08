@@ -43,6 +43,7 @@
     "file-loader": "^6.2.0",
     "mongoose": "^5.10.14",
     "nodemon": "^2.0.6",
+    "pg": "^8.5.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "styled-components": "^5.2.1",
