@@ -33,17 +33,15 @@ class App extends React.Component {
   }
 
   getImages(itemId) {
-    Axios.get(`/api/images/?id=${itemId}`) // https query
+    Axios.get(`/api/images/?id=${itemId}`) // https query str
       .then((res) => {
         this.setState({
-          images: res.data, // now an array // imagesObj.data[0].imageUrls
+          images: res.data,
           currImg: 0,
         });
-        return res.data[0]; // gets sent to next // imagesObj.data[0].imageUrls[0]
+        return res.data[0];
       })
       .then((firstImage) => {
-        console.log('get images fxn fired');
-        console.log(firstImage);
         this.getImages(this.setMain(firstImage, 0));
       })
       .catch((err) => {
@@ -51,33 +49,10 @@ class App extends React.Component {
       });
   }
 
-  // [
-  //   {img_url: 'urlstring/asldfkugh'},
-  //   {},
-  //   {},
-  //   {},
-  //   {}
-  // ]
-
-  //   [
-  //     {
-  //         "imageUrls": [
-  //             "http://placeimg.com/640/480/fashion",
-  //             "http://placeimg.com/640/480/fashion",
-  //             "http://placeimg.com/640/480/fashion",
-  //             "http://placeimg.com/640/480/fashion",
-  //             "http://placeimg.com/640/480/fashion"
-  //         ],
-  //         "_id": "5faed97b610fbd1d50ddd72d",
-  //         "id": 2,
-  //         "__v": 0
-  //     }
-  // ]
-
   setMain(image, n) {
     this.setState({
       main: image.img_url,
-      currImg: n, // image.id, start at 0
+      currImg: n, // only set to 0 on initial render
     });
   }
 
@@ -114,7 +89,7 @@ class App extends React.Component {
   }
 
   render() {
-    const { images, main } = this.state; // redundant eslint
+    const { images, main } = this.state;
     return (
       <Container>
         <Navigation>
