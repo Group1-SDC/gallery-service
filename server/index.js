@@ -11,8 +11,7 @@ app.use('/:id', express.static('public'));
 app.get('/api/images', (req, res) => {
   const { id } = req.query;
   const queryString = `SELECT img_url FROM images WHERE listing_id=${id}`;
-  db.query(queryString, (queryRes) => {
-    console.log(queryRes);
+  db.queryHandler(queryString, (queryRes) => {
     res.send(queryRes);
   });
 });

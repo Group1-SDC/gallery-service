@@ -10,8 +10,9 @@ const pool = new Pool({
 
 pool.connect();
 
-const query = (queryString, cb) => {
-  pool.query(queryString)
+const queryHandler = (queryString, cb) => {
+  pool
+    .query(queryString)
     .then((res) => {
       cb(res.rows);
     })
@@ -21,5 +22,5 @@ const query = (queryString, cb) => {
 };
 
 module.exports = {
-  query,
+  queryHandler,
 };

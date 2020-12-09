@@ -42,7 +42,7 @@ class App extends React.Component {
         return res.data[0];
       })
       .then((firstImage) => {
-        this.getImages(this.setMain(firstImage, 0));
+        this.setMain(firstImage, 0);
       })
       .catch((err) => {
         console.error(err);
