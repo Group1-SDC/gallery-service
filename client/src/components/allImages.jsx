@@ -1,18 +1,22 @@
 import React from 'react';
-import { SmallImg, SmallImagesContainer, SmallImageContainer } from '../styledComponents/galleryStyles';
+import {
+  SmallImg,
+  SmallImagesContainer,
+  SmallImageContainer,
+} from '../styledComponents/galleryStyles';
 
-const allImages = (props) => {
+const allImages = ({ images, setMain }) => {
   return (
-    <SmallImagesContainer key={props.itemImageObjs}>
-      {props.itemImageObjs.map((oneImageObj) => {
+    <SmallImagesContainer key={images}>
+      {images.map((image) => {
         return (
           <SmallImageContainer
             onClick={() => {
-              props.setMain(oneImageObj);
+              setMain(image);
             }}
-            key={oneImageObj.id}
+            key={Math.random()}
           >
-            <SmallImg rel="preload" src={oneImageObj.url} alt="partOfAllImages" key={oneImageObj.id} />
+            <SmallImg rel="preload" src={image.img_url} alt="partOfAllImages" key={Math.random()} />
           </SmallImageContainer>
         );
       })}

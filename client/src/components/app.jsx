@@ -3,7 +3,12 @@ import Axios from 'axios';
 import AllImages from './allImages';
 import MainImage from './mainImage';
 import {
-  Container, Navigation, CodeOff, Back, Home, Sports,
+  Container,
+  Navigation,
+  CodeOff,
+  Back,
+  Home,
+  Sports,
 } from '../styledComponents/galleryStyles';
 
 class App extends React.Component {
@@ -11,7 +16,7 @@ class App extends React.Component {
     super(props);
     this.state = {
       main: '',
-      itemImageObjs: [],
+      images: [],
       currImg: '',
     };
     this.setMain = this.setMain.bind(this);
@@ -21,72 +26,70 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    let id = 1;
     if (window.location.pathname !== '/') {
       const arr = window.location.pathname.split('/');
-      [id] = [arr[1]];
+      this.getImages(arr[1]);
     }
-    this.getImages(id);
   }
 
   getImages(itemId) {
-    Axios.get(`/api/images/?id=${itemId}`)
-      .then((imagesObj) => {
+    Axios.get(`/api/images/?id=${itemId}`) // https query str
+      .then((res) => {
         this.setState({
-          itemImageObjs: imagesObj.data[0].imageUrls,
+          images: res.data,
           currImg: 0,
         });
-        return imagesObj.data[0].imageUrls[0];
+        return res.data[0];
       })
-      .then((firstImg) => {
-        this.getImages(this.setMain(firstImg));
+      .then((firstImage) => {
+        this.getImages(this.setMain(firstImage, 0));
       })
       .catch((err) => {
-        return err;
+        console.error(err);
       });
   }
 
-  setMain(image) {
+  setMain(image, n) {
     this.setState({
-      main: image.url,
-      currImg: image.id,
+      main: image.img_url,
+      currImg: n, // only set to 0 on initial render
     });
   }
 
   nextImage() {
-    const { currImg, itemImageObjs } = this.state;
+    const { currImg, images } = this.state;
 
-    if (currImg === 4) {
+    if (currImg === images.length - 1) {
       this.setState({
         currImg: 0,
-        main: itemImageObjs[0].url,
+        main: images[0].img_url,
       });
     } else {
       this.setState({
         currImg: currImg + 1,
-        main: itemImageObjs[currImg + 1].url,
+        main: images[currImg + 1].img_url,
       });
     }
   }
 
   previousImage() {
-    const { currImg, itemImageObjs } = this.state;
+    const { currImg, images } = this.state;
 
     if (currImg === 0) {
       this.setState({
-        currImg: 4,
-        main: itemImageObjs[4].url,
+        currImg: images.length - 1,
+        main: images[images.length - 1].img_url,
       });
     } else {
       this.setState({
         currImg: currImg - 1,
-        main: itemImageObjs[currImg - 1].url,
+        main: images[currImg - 1].img_url,
       });
     }
   }
 
   render() {
-    const { itemImageObjs, main } = this.state;
+    const { images, main } = this.state;
     return (
       <Container>
         <Navigation>
@@ -99,7 +102,7 @@ class App extends React.Component {
         </Navigation>
         <CodeOff> -30% CODE GETSHOES</CodeOff>
         <MainImage nextImage={this.nextImage} previousImage={this.previousImage} main={main} />
-        <AllImages itemImageObjs={itemImageObjs} setMain={this.setMain} />
+        <AllImages images={images} setMain={this.setMain} />
       </Container>
     );
   }

@@ -1,30 +1,25 @@
-/* eslint-disable no-console */
-const mongoose = require('mongoose');
+const { Pool } = require('pg');
 
-mongoose.connect('mongodb://localhost/itemImages',
-  {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  });
-
-const db = mongoose.connection;
-
-db.on('error', console.error.bind(console, 'connection error: '));
-
-db.once('open', () => {
-  console.log('connection successful');
+const pool = new Pool({
+  user: 'lukehatcher',
+  host: 'localhost',
+  database: 'gallery',
+  password: '',
+  port: 5432,
 });
 
-const itemImagesSchema = new mongoose.Schema({
-  id: {
-    type: Number,
-    unique: true,
-  },
-  imageUrls: Array,
-});
+pool.connect();
 
-const ItemImages = mongoose.model('ItemImages', itemImagesSchema);
+const query = (queryString, cb) => {
+  pool.query(queryString)
+    .then((res) => {
+      cb(res.rows);
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+};
 
 module.exports = {
-  ItemImages,
+  query,
 };
