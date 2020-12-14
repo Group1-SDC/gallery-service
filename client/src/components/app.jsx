@@ -33,7 +33,7 @@ class App extends React.Component {
   }
 
   getImages(itemId) {
-    Axios.get(`/api/images/?id=${itemId}`) // https query str
+    Axios.get(`/api/images/?id=${itemId}`) // ?
       .then((res) => {
         this.setState({
           images: res.data,
