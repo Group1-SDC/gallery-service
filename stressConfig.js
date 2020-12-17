@@ -2,7 +2,7 @@ import { sleep, check } from 'k6';
 import http from 'k6/http';
 
 export const options = {
-  duration: '1m',
+  duration: '10m',
   vus: 100,
   ext: {
     loadimpact: {
@@ -16,7 +16,8 @@ export const options = {
 export default function () {
   const wrapper = () => {
     const n = Math.floor(Math.random() * 10000000);
-    const URL = `http://localhost:3000/api/images/?id=${n}`;
+    // const URL = `http://localhost:3000/api/images/?id=${n}`;
+    const URL = `http://52.32.188.191:2000/api/images/?id=${n}`;
     const response = http.get(URL);
     check(response, {
       'is status 200': (r) => r.status === 200,
