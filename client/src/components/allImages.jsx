@@ -1,3 +1,8 @@
+/**
+ * This legacy code is not the work of Luke Hatcher.
+ * Please see the README.md
+ */
+
 import React from 'react';
 import {
   SmallImg,

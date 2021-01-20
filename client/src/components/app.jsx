@@ -1,3 +1,8 @@
+/**
+ * This legacy code is not the work of Luke Hatcher.
+ * Please see the README.md
+ */
+
 import React from 'react';
 import Axios from 'axios';
 import AllImages from './allImages';
@@ -33,7 +38,7 @@ class App extends React.Component {
   }
 
   getImages(itemId) {
-    Axios.get(`/api/images/?id=${itemId}`) // ?
+    Axios.get(`/api/images/?id=${itemId}`)
       .then((res) => {
         this.setState({
           images: res.data,
