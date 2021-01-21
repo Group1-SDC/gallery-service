@@ -1,5 +1,8 @@
-# footwork back-end optimization
-This repo contains the gallery microservice for footwork. This legacy code base had its' backend removed and replaced with a service oriented architecture that could handle high levels of user traffic. Note: The front-end code here is not mine.
+# footwork gallery service
+This repo contains the product gallery microservice for footwork. *Note*: The front-end code here is not mine.
+
+## 🧩 objective
+I removed this legacy code bases' back-end infrastructure and replaced it with a service oriented architecture that could handle high levels of user traffic. 
 
 ## 🛠 back-end stack
 Node.js, Express.js, PostgreSQL, Docker, NGINX, AWS (S3, EC2), K6, loader.io, New Relic
@@ -8,4 +11,4 @@ Node.js, Express.js, PostgreSQL, Docker, NGINX, AWS (S3, EC2), K6, loader.io, Ne
 <img src=backend-design.png>
 
 ## 📈 performance improvments
-Increased this microservices' request per second threshold from 250 -> 2000+. Furthermore, the infrastructure in place can easily be expanded to handle more. 
+Upon implementation of this architecture, this microservices' requests per second threshold increased from 250 -> 2000+. Furthermore, the infrastructure currently in place is built in such a way that further scaling can easily be performed as needed.
