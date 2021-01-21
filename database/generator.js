@@ -1,3 +1,5 @@
+// node.js script for generating csv with mock data (for 10M product listings)
+
 const fs = require('fs');
 const { performance } = require('perf_hooks');
 
